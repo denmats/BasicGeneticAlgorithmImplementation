@@ -98,7 +98,8 @@ public class Main {
         Convert phenotype array to binary one and make mutation at certain locus (swap bit from 1 to 0 or otherwise)*/
         for (int i = 0; i < len; i++) {
             if (getRandomDouble(1, 0) < pMutation) {
-                int locus = getRandomInteger(bits, 1);
+                int locus = getRandomInteger(bits, 0);
+                System.out.println("locus mutation = "+locus);
                 int[] temp = Dec2BinConverter(array[i], bits);
 
                 if (temp[locus] == 1) {
@@ -127,7 +128,6 @@ public class Main {
                 int locus = getRandomInteger(len - 1, 0);
 
                 int[] arrA = Dec2BinConverter(array[i], bits);
-
                 int[] arrB = Dec2BinConverter(array[i + 1], bits);
 
                 int[] modifiedA = new int[bits];
