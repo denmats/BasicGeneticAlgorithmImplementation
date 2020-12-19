@@ -47,7 +47,7 @@ public class Fitness {
     public void calculateFitness(int a, int b, int c, int d, int[] phenotypeArray) {
         fitnessArray = new int[phenotypeArray.length];
         for (int i = 0; i < phenotypeArray.length; i++) {
-            fitnessArray[i] = (int) (a * Math.pow(phenotypeArray[i], 3)) + b * phenotypeArray[i] * phenotypeArray[i] * c * phenotypeArray[i] + d;
+            fitnessArray[i] = (int) (a * Math.pow(phenotypeArray[i], 3)) + b * phenotypeArray[i] * phenotypeArray[i] + c * phenotypeArray[i] + d;
             functionMax += fitnessArray[i];
             xMax += phenotypeArray[i];
         }

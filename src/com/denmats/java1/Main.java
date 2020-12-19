@@ -25,7 +25,7 @@ public class Main {
         this.d = d;
         this.pCrossover = pCrossover;
         this.pMutation = pMutation;
-        this.range = (range%2 == 0)? range:6; //the range is supposed being divided by 2 without remain
+        this.range = (range%2 == 0)? range:6; //the range is supposed to get divided by 2 without remainder
         this.bits = (bits < 4)? 5: bits; //number of bits can be applied from 5 and higher
         this.parents = new int[range];
         this.offsprings = new int[range];
@@ -35,7 +35,7 @@ public class Main {
 
     public static void main(String[] args) {
         /*Basic Genetic Algorithm Implementation*/
-        Main m = new Main(2,3,4,-101, 0.8, 0.2, 6, 5);
+        Main m = new Main(0,0,-1,40, 0.8, 0.2, 6, 5);
 
         /* Generate parent's array of chromosomes range <1,31>*/
         System.out.println("Initialization");
@@ -99,7 +99,6 @@ public class Main {
         for (int i = 0; i < len; i++) {
             if (getRandomDouble(1, 0) < pMutation) {
                 int locus = getRandomInteger(bits, 0);
-                System.out.println("locus mutation = "+locus);
                 int[] temp = Dec2BinConverter(array[i], bits);
 
                 if (temp[locus] == 1) {
@@ -125,7 +124,7 @@ public class Main {
         for (int i = 0; i < len; i += 2) {
             double rand = getRandomDouble(1, 0);
             if (rand < pCrossover) {
-                int locus = getRandomInteger(len - 1, 0);
+                int locus = getRandomInteger(len - 1, 1);
 
                 int[] arrA = Dec2BinConverter(array[i], bits);
                 int[] arrB = Dec2BinConverter(array[i + 1], bits);
@@ -143,6 +142,9 @@ public class Main {
                 }
                 pArray[i] = Bin2DecConverter(modifiedA);
                 pArray[i + 1] = Bin2DecConverter(modifiedB);
+            }else{
+                pArray[i] = array[i];
+                pArray[i + 1] = array[i+1];
             }
         }
         return pArray;
@@ -157,6 +159,8 @@ public class Main {
         for (int i = 0; i < len; i++) {
             shares += (double) fitness.getFitnessArray()[i] / fitness.getFunctionMax() * 100;
             fitnessShares[i] = shares;
+//            System.out.println("shares ="+fitnessShares[i]);
+//            System.out.println();
         }
          /*Compute the indices of next generation of chromosomes
          Generate double number from 0 to 100 for each chromosome
@@ -168,11 +172,12 @@ public class Main {
             for (int j = 1; j < len; j++) {
                 if (shot >= fitnessShares[j - 1] && shot < fitnessShares[j]) {
                     offspringIndices[i] = j;
+//                    System.out.println("shots = "+offspringIndices[i]);
                     break;
                 }
             }
         }
-        /*Create a new generation of chromosomes based on previous via random selection*/
+        /*Create a new generation of chromosomes based on previous one via random selection*/
         int[] offsprings = new int[len];
         for (int i = 0; i < len; i++) {
             offsprings[i] = parents[offspringIndices[i]];
